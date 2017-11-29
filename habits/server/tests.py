@@ -1,11 +1,12 @@
 import unittest
+from flask import jsonify
 
-from app import create_app
+from app import app
 
 class HabitsTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app = create_app()
+        self.app = app
         self.client = self.app.test_client
 
     def test_index_route_status_ok(self):
@@ -21,7 +22,7 @@ class HabitsTestCase(unittest.TestCase):
     def test_get_list_of_habits(self):
         self.assertEqual(
             self.client().get('/habits/').data,
-            b'[]')
+            b'[]\n')
 
 if __name__ == '__main__':
     unittest.main()
