@@ -1,10 +1,40 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, make_response
 from app.habits_api.models import Habit
+from app import db
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
-@habits_api.route('/', methods=['GET'])
-def index_habits():
-    return jsonify(Habit.query.all())
+def habit_to_json(habit):
+    result = {}
+    result['id'] = habit.id
+    if hasattr(habit, 'name'):
+        result['name'] = habit.name
+    return jsonify(result)
 
+@habits_api.route('/', methods=['GET', 'POST'])
+def habits():
+    if request.method == 'GET':
+        response = make_response(
+            jsonify(Habit.query.all()),
+            200)
+        return response
+    else:
+        data = request.get_json(silent=True)
+        if data is None:
+            return make_response("Bad Request", 400)
+ 
+        new_habit = Habit(data['id'], data['name'])
+        new_habit.save()
+
+        return make_response(habit_to_json(new_habit), 201)
+
+@habits_api.route('/<id>', methods=['GET'])
+def show_habit(id):
+    habit = Habit.query.get(id)
+    if habit is None:
+        return make_response("Not Found", 404)
+
+    return make_response(
+        habit_to_json(habit),
+        200)
 

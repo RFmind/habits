@@ -1,13 +1,21 @@
 import unittest
+import json
+import tempfile
 from flask import jsonify
+from flask_sqlalchemy import SQLAlchemy
 
-from app import app
+from app import app, db
 
 class HabitsTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app = app
-        self.client = self.app.test_client
+        with app.app_context():
+            db.session.close()
+            db.drop_all()
+            db.create_all()
+
+        self.client = app.test_client
+        self.newhabit = json.dumps(dict(id=1, name='Somehabit'))
 
     def test_index_route_status_ok(self):
         self.assertEqual(
@@ -21,8 +29,32 @@ class HabitsTestCase(unittest.TestCase):
 
     def test_get_list_of_habits(self):
         self.assertEqual(
-            self.client().get('/habits/').data,
-            b'[]\n')
+            json.loads(self.client().get('/habits/').data),
+            [])
+
+    def test_404_when_habit_not_found(self):
+        response = self.client().get('/habits/1')
+        self.assertEqual(response.status_code, 404)
+
+    def test_added_habit_is_gettable(self):
+        added_response = self.client().post(
+            '/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().get('/habits/1')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.data), dict(id=1,name='Somehabit'))
+
+    def test_status_201_when_adding_habit(self):
+        response = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+    def test_bad_input_when_adding_habit(self):
+        response = self.client().post('/habits/',
+            data="23 23")
+        self.assertEqual(response.status_code, 400)
 
 if __name__ == '__main__':
     unittest.main()
