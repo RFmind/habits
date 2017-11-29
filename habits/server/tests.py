@@ -13,6 +13,16 @@ class HabitsTestCase(unittest.TestCase):
             self.client().get('/').status_code,
             200)
 
+    def test_habits_route_status_ok(self):
+        self.assertEqual(
+            self.client().get('/habits').status_code,
+            200)
+
+    def test_get_list_of_habits(self):
+        self.assertEqual(
+            self.client().get('/habits').data,
+            b'[]')
+
 if __name__ == '__main__':
     unittest.main()
 
