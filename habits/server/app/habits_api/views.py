@@ -38,3 +38,13 @@ def show_habit(id):
         habit_to_json(habit),
         200)
 
+@habits_api.route('/<id>', methods=['DELETE'])
+def delete_habit(id):
+    habit = Habit.query.get(id)
+    if habit is None:
+        return make_response("Not Found", 404)
+
+    return make_response(
+        habit_to_json(habit),
+        200)
+

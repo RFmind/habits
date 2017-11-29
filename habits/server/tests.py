@@ -45,7 +45,7 @@ class HabitsTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.data), dict(id=1,name='Somehabit'))
 
-    def test_status_201_when_adding_habit(self):
+    def test_status_201_when_added_habit(self):
         response = self.client().post('/habits/',
             data=self.newhabit,
             content_type='application/json')
@@ -55,6 +55,26 @@ class HabitsTestCase(unittest.TestCase):
         response = self.client().post('/habits/',
             data="23 23")
         self.assertEqual(response.status_code, 400)
+
+    def test_status_404_when_deleting_habit(self):
+        response = self.client().delete('/habits/1')
+        self.assertEqual(response.status_code, 404)
+
+    def test_status_200_when_deleted_habit(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().delete('/habits/1')
+        self.assertEqual(response.status_code, 200)
+
+    def test_returns_deleted_habit(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().delete('/habits/1')
+        self.assertEqual(
+            json.loads(response.data),
+            dict(id=1, name='Somehabit'))
 
 if __name__ == '__main__':
     unittest.main()
