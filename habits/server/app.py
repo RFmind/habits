@@ -9,6 +9,6 @@ app = Flask(
 def index():
     return render_template('index.html')
 
-@app.route('/habits')
+@app.route('/habits/')
 def list_habits():
     return '[]'
