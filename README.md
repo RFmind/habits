@@ -11,4 +11,8 @@ flask
 
 `python tests.py`
 
+## Run Application
+
+`python run.py`
+
 
