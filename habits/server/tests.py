@@ -27,10 +27,18 @@ class HabitsTestCase(unittest.TestCase):
             self.client().get('/habits/').status_code,
             200)
 
-    def test_get_list_of_habits(self):
+    def test_get_empty_list_of_habits(self):
         self.assertEqual(
             json.loads(self.client().get('/habits/').data),
             [])
+
+    def test_get_list_of_habits(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        self.assertEqual(
+            json.loads(self.client().get('/habits/').data),
+            [dict(id=1, name='Somehabit')])
 
     def test_404_when_habit_not_found(self):
         response = self.client().get('/habits/1')

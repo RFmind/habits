@@ -4,19 +4,23 @@ from app import db
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
-def habit_to_json(habit):
+def habit_to_dict(habit):
     result = {}
     result['id'] = habit.id
     if hasattr(habit, 'name'):
         result['name'] = habit.name
-    return jsonify(result)
+    return result
+
+def habit_to_json(habit):
+    return jsonify(habit_to_dict(habit))
+
+def habits_to_json(habits):
+    return jsonify(list(map(habit_to_dict, habits)))
 
 @habits_api.route('/', methods=['GET', 'POST'])
 def habits():
     if request.method == 'GET':
-        response = make_response(
-            jsonify(Habit.query.all()),
-            200)
+        response = make_response(habits_to_json(Habit.query.all()), 200)
         return response
     else:
         data = request.get_json(silent=True)
