@@ -21,6 +21,9 @@ def create_app(config_mode_name):
     from app.habits_api.views import habits_api
     app.register_blueprint(habits_api)
 
+    with app.app_context():
+        db.create_all()
+
     return app
 
 
