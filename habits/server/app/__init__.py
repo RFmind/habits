@@ -1,20 +1,26 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from config import configuration_mode
 
-app = Flask(
-    __name__,
-    static_folder='../../static/dist',
-    template_folder='../../static')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy()
 
-db = SQLAlchemy(app)
+def create_app(config_mode_name):
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+    app = Flask(
+        __name__,
+        static_folder='../../static/dist',
+        template_folder='../../static')
+    app.config.from_object(configuration_mode[config_mode_name])
 
-from app.habits_api.views import habits_api
-app.register_blueprint(habits_api)
+    db.init_app(app)
 
-db.create_all()
+    @app.route('/')
+    def index():
+        return render_template('index.html')
+
+    from app.habits_api.views import habits_api
+    app.register_blueprint(habits_api)
+
+    return app
+
+

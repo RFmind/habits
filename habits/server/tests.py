@@ -4,11 +4,13 @@ import tempfile
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 
-from app import app, db
+from app import create_app, db
 
 class HabitsTestCase(unittest.TestCase):
 
     def setUp(self):
+        app = create_app('TEST')
+
         with app.app_context():
             db.session.close()
             db.drop_all()
