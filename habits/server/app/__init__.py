@@ -10,7 +10,8 @@ def create_app(config_mode_name):
         __name__,
         static_folder='../../static/dist',
         template_folder='../../static')
-    app.config.from_object(configuration_mode[config_mode_name])
+    conf = configuration_mode[config_mode_name]()
+    app.config.from_object(conf)
 
     db.init_app(app)
 

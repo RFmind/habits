@@ -11,6 +11,12 @@ web:
     command: python -u /flaskapp/habits/server/run.py
     ports:
         - "5000:5000"
+    environment:
+        - SETTINGS_MODE=PROD
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_HOST=db
+        - POSTGRES_DB=habits_prod
     volumes:
         - .:/flaskapp
     links:
@@ -21,6 +27,7 @@ test:
     command: python -u /flaskapp/habits/server/tests.py
     ports:
         - "5000:5000"
+    environment:
+        - SETTINGS_MODE=TEST
     volumes:
         - .:/flaskapp
-
