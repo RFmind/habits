@@ -10,6 +10,9 @@
 
 ##### Locally
 
+Make sure to set the `SETTINGS_MODE` to `TEST`, `DEV` or `PROD`
+Then run the tests:
+
 `python habits/server/tests.py`
 
 ##### In a docker container
