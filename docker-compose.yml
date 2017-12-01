@@ -1,0 +1,26 @@
+db:
+    image: postgres
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_HOST=db
+        - POSTGRES_DB=habits_prod
+
+web:
+    build: .
+    command: python -u /flaskapp/habits/server/run.py
+    ports:
+        - "5000:5000"
+    volumes:
+        - .:/flaskapp
+    links:
+        - db
+
+test:
+    build: .
+    command: python -u /flaskapp/habits/server/tests.py
+    ports:
+        - "5000:5000"
+    volumes:
+        - .:/flaskapp
+
