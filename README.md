@@ -2,18 +2,11 @@
 
 ## Server
 
-### Dependencies
+### Install Dependencies
 
-```
-python
-flask
-```
+`pip install -r requirements.txt`
 
-#### Install Dependencies
-
-`pip install -r habits/requirements.txt`
-
-### Run tests
+### Run Tests
 
 `python habits/server/tests.py`
 
