@@ -1,18 +1,23 @@
 # Habits Project
 
-## Dependencies
+## Server
+
+### Dependencies
 
 ```
 python
 flask
 ```
 
-## Run tests
+#### Install Dependencies
 
-`python tests.py`
+`pip install -r habits/requirements.txt`
 
-## Run Application
+### Run tests
 
-`python run.py`
+`python habits/server/tests.py`
 
+### Run Application
+
+`python habits/server/run.py`
 
