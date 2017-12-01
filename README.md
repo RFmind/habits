@@ -10,7 +10,7 @@
 
 ##### Locally
 
-Make sure to set the `SETTINGS_MODE` to `TEST`, `DEV` or `PROD`
+Make sure to set the `SETTINGS_MODE` environment variable to `TEST`, `DEV` or `PROD`.
 Then run the tests:
 
 `python habits/server/tests.py`
@@ -23,8 +23,8 @@ Then run the tests:
 
 ##### Locally
 
-Make sure to set the `SETTINGS_MODE` to `TEST`, `DEV` or `PROD`
-Then run the tests:
+Make sure to set the `SETTINGS_MODE` to `TEST`, `DEV` or `PROD`.
+Then run the application:
 
 `python habits/server/run.py`
 
