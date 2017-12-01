@@ -8,11 +8,23 @@
 
 ### Run Tests
 
+##### Locally
+
 `python habits/server/tests.py`
+
+##### In a docker container
+
+`docker-compose up test`
 
 ### Run Application
 
+##### Locally
+
 `python habits/server/run.py`
+
+##### In a docker container
+
+`docker-compose up web`
 
 ## Front-end
 
