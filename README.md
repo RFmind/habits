@@ -21,3 +21,26 @@ flask
 
 `python habits/server/run.py`
 
+## Front-end
+
+### Install Dependencies
+
+```
+cd habits/static/
+npm install
+```
+
+### Build Application
+
+```
+cd /habits/static/
+npm run build
+```
+
+### Run Tests
+
+```
+cd /habits/static/
+npm run tests
+```
+
