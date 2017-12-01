@@ -1,18 +1,39 @@
 # Habits Project
 
-## Dependencies
+## Server
+
+### Install Dependencies
+
+`pip install -r requirements.txt`
+
+### Run Tests
+
+`python habits/server/tests.py`
+
+### Run Application
+
+`python habits/server/run.py`
+
+## Front-end
+
+### Install Dependencies
 
 ```
-python
-flask
+cd habits/static/
+npm install
 ```
 
-## Run tests
+### Build Application
 
-`python tests.py`
+```
+cd /habits/static/
+npm run build
+```
 
-## Run Application
+### Run Tests
 
-`python run.py`
-
+```
+cd /habits/static/
+npm run tests
+```
 
