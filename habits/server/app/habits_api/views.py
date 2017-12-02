@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, make_response
+from cerberus import Validator
 from app.habits_api.models import Habit
 from app.habits_api.validation import is_valid
 from app import db
@@ -25,8 +26,10 @@ def habits():
         return response
     else:
         data = request.get_json(silent=True)
-
-        if not is_valid(data):
+        validator = Validator()
+        schema = {'name': {'type': 'string', 'maxlength': 50}}
+        
+        if data is None or not validator.validate(data, schema):
             return make_response("Bad Request", 400)
 
         new_habit = Habit(name=data['name'])
