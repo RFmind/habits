@@ -17,7 +17,7 @@ class HabitsTestCase(unittest.TestCase):
             db.create_all()
 
         self.client = app.test_client
-        self.newhabit = json.dumps(dict(id=1, name='Somehabit'))
+        self.newhabit = json.dumps(dict(name='Somehabit'))
 
     def test_index_route_status_ok(self):
         self.assertEqual(
@@ -85,6 +85,20 @@ class HabitsTestCase(unittest.TestCase):
         self.assertEqual(
             json.loads(response.data),
             dict(id=1, name='Somehabit'))
+
+    def test_returns_400_when_name_not_given(self):
+        response = self.client().post('/habits/',
+            data=json.dumps(dict(noname='notaname')),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_returns_400_when_name_is_longer_than_50(self):
+        response = self.client().post('/habits/',
+            data=json.dumps(dict(
+                name='azertyuiqospalskdjfuehdkshdkejdshzjshak   jahzjehqkjdh')),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
 
 if __name__ == '__main__':
     unittest.main()
