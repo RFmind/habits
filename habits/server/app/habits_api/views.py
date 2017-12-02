@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request, make_response
 from cerberus import Validator
 from app.habits_api.models import Habit
-from app.habits_api.validation import is_valid
 from app import db
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
