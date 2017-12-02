@@ -96,7 +96,7 @@ class HabitsTestCase(unittest.TestCase):
         response = self.client().post('/habits/',
             data=json.dumps(dict(
                 name='azertyuiqospalskdjfuehdkshdkejdshzjshak   jahzjehqkjdh')),
-            content_type='application/json')
+                content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
 
