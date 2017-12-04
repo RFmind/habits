@@ -15,4 +15,9 @@ export default class HabitsList extends React.Component {
             return(<ul><li>Test</li></ul>);
         }
     }
-}
+};
+
+HabitsList.propTypes = {
+    list: PropTypes.array
+};
+
