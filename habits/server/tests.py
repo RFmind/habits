@@ -86,6 +86,22 @@ class HabitsTestCase(unittest.TestCase):
             json.loads(response.data),
             dict(id=1, name='Somehabit'))
 
+    def test_deleted_item_not_gettable(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        added_habit = json.loads(added.data)
+        deleted = self.client().delete(
+            '/habits/{}'.format(added_habit['id']))
+        response = self.client().get(
+            '/habits/{}'.format(added_habit['id']))
+        self.assertEqual(
+            response.status_code,
+            404)
+
+            
+
+
     def test_returns_400_when_name_not_given(self):
         response = self.client().post('/habits/',
             data=json.dumps(dict(noname='notaname')),

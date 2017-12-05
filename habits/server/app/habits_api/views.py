@@ -52,6 +52,7 @@ def delete_habit(id):
     if habit is None:
         return make_response("Not Found", 404)
 
+    habit.delete()
     return make_response(
         habit_to_json(habit),
         200)
