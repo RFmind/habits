@@ -6,9 +6,10 @@ import HabitsTracker from '../src/HabitsTracker.jsx';
 
 describe('<HabitsTracker/>', function () {
 
+    const fixture = mount(<HabitsTracker/>);
+
     it('should contain a HabitsList.', function () {
-        const wrapper = mount(<HabitsTracker/>);
-        expect(wrapper.find(HabitsTracker)).to.have.length(1);
+        expect(fixture.find('HabitsList')).to.have.length(1);
     });
 
 });
