@@ -17,7 +17,6 @@ export default class HabitsList extends React.Component {
             return(
                 <ul>
                     {this.props.list.map((item) =>
-                        //(<li key={item.id}>{item.name}</li>))}
                         (<Habit key={item.id} id={item.id} value={item.name} />))}
                 </ul>
             );
@@ -29,7 +28,6 @@ class Habit extends React.Component {
 
     render() {
         return (
-            //<input type="checkbox" value={props.id}>{props.value}<br>
             <li> 
                 <span onClick={e => deleteHabit(this.props.id)}> X </span>
                 {this.props.value}
