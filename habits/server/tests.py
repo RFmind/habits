@@ -115,6 +115,27 @@ class HabitsTestCase(unittest.TestCase):
                 content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
+    def test_as_json_should_return_none_when_none(self):
+        from app.habits_api.util import as_json
+        from app.habits_api.models import Habit
+
+        self.assertEqual(as_json(None), None)
+
+    def test_as_json_should_handle_single_habit(self):
+        from app.habits_api.util import as_json
+        from app.habits_api.models import Habit
+
+        self.assertEqual(
+            as_json(Habit(name='somename')),
+            json.dumps({'name': 'somename'}))
+    
+    def test_as_json_should_handle_list_of_habits(self):
+        from app.habits_api.util import as_json
+        from app.habits_api.models import Habit
+
+        self.assertEqual(
+            as_json([Habit(name='somename'), Habit(name='other')]),
+            json.dumps([{'name': 'somename'}, {'name': 'other'}]))
 
 if __name__ == '__main__':
     unittest.main()

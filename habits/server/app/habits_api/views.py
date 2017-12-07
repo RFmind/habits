@@ -2,26 +2,14 @@ from flask import Blueprint, jsonify, request, make_response
 from cerberus import Validator
 from app.habits_api.models import Habit
 from app import db
+from app.habits_api.util import as_json
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
-
-def habit_to_dict(habit):
-    result = {}
-    result['id'] = habit.id
-    if hasattr(habit, 'name'):
-        result['name'] = habit.name
-    return result
-
-def habit_to_json(habit):
-    return jsonify(habit_to_dict(habit))
-
-def habits_to_json(habits):
-    return jsonify(list(map(habit_to_dict, habits)))
 
 @habits_api.route('/', methods=['GET', 'POST'])
 def habits():
     if request.method == 'GET':
-        response = make_response(habits_to_json(Habit.query.all()), 200)
+        response = make_response(as_json(Habit.query.all()), 200)
         return response
     else:
         data = request.get_json(silent=True)
@@ -34,7 +22,7 @@ def habits():
         new_habit = Habit(name=data['name'])
         new_habit.save()
 
-        return make_response(habit_to_json(new_habit), 201)
+        return make_response(as_json(new_habit), 201)
 
 @habits_api.route('/<id>', methods=['GET'])
 def show_habit(id):
@@ -43,7 +31,7 @@ def show_habit(id):
         return make_response("Not Found", 404)
 
     return make_response(
-        habit_to_json(habit),
+        as_json(habit),
         200)
 
 @habits_api.route('/<id>', methods=['DELETE'])
@@ -54,6 +42,6 @@ def delete_habit(id):
 
     habit.delete()
     return make_response(
-        habit_to_json(habit),
+        as_json(habit),
         200)
 
