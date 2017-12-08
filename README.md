@@ -1,4 +1,4 @@
-# Habits Project
+# Habits Project [Travis-ci Build Status](https://travis-ci.org/RFmin/habits.svg?branch=master)
 
 ## Server
 
