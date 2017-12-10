@@ -1,6 +1,6 @@
 # container def for development
 box:
-  id: wercker/python
+  id: python
   ports:
     - "5000"
 
