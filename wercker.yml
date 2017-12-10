@@ -1,6 +1,6 @@
 # container def for development
 box:
-  id: python
+  id: python:3
   ports:
     - "5000"
 
