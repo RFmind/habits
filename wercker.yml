@@ -1,4 +1,3 @@
-# container def for development
 box:
   id: python:3
   ports:
