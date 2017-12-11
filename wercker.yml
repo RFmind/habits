@@ -19,7 +19,7 @@ build-server:
 
     - script:
         name: "Install missing dependencies"
-        code: sudo apt-get update && sudo apt-get install postgresql-dev
+        code: sudo apt-get update && sudo apt-get install libpq-dev python-dev
 
     - pip-install
 
