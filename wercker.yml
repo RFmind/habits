@@ -19,7 +19,7 @@ build-server:
 
     - script:
         name: "Install missing dependencies"
-        code: apk --update add postgresql-dev gcc python-dev py-pip musl-dev
+        code: apk add --update postgresql-dev gcc python-dev py-pip musl-dev
 
     - pip-install
 
@@ -41,7 +41,7 @@ build-frontend:
   steps:
     - script:
         name: "Install NPM"
-        code: apk --update add nodejs nodejs-npm
+        code: apk add --update nodejs-8.9.3 nodejs-npm-8.9.3
 
     - script:
         name: "Install frontend dependencies"
