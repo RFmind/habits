@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: apossword
       POSTGRES_USER: nameapassword
 
-build:
+build-server:
   steps:
     
     - script:
