@@ -1,5 +1,5 @@
 box:
-  id: python:3
+  id: python:3-alpine
   ports:
     - "5000"
 
@@ -35,6 +35,10 @@ build-server:
 
 build-frontend:
   steps:
+    - script:
+        name: "Install NPM"
+        code: apk add npm
+
     - script:
         name: "Install frontend dependencies"
         cwd: habits/static
