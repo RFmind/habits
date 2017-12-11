@@ -47,8 +47,7 @@ build-frontend:
         name: "Install NPM"
         code: |
           curl -sL https://deb.nodesource.com/setup_9.x | bash -
-          chmod +x setup_9.x
-          ./setup_9.x
+          sudo apt-get install nodejs
 
     - script:
         name: "Install frontend dependencies"
