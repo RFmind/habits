@@ -7,6 +7,12 @@ a REST-style Python-based backend.
 
 You can find the latest builds on Docker Hub @ hub.docker.com/r/rfmind/habits
 
+To run the container the following env vars should be set:
+    - POSTGRES_HOST
+    - POSTGRES_USER
+    - POSTGRES_PASSWORD
+    - SETTINGS_MODE (should be one of `DEV`, `TEST` or `PROD`
+
 You can also clone this repository and follow the instructions below to test/run
 the application.
 
