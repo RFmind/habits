@@ -1,5 +1,5 @@
 box:
-  id: python:3-alpine
+  id: python:3-alpine3.6
   ports:
     - "5000"
 
