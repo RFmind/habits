@@ -19,7 +19,7 @@ build-server:
 
     - script:
         name: "Install missing dependencies"
-        code: apk --update add postgresql-dev gcc
+        code: apk --update add postgresql-dev gcc python-dev py-pip
 
     - pip-install
 
