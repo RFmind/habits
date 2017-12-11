@@ -40,8 +40,14 @@ build-server:
 build-frontend:
   steps:
     - script:
+        name: "Install curl"
+        code: sudo apt-get update && sudo apt-get -y install curl
+
+    - script:
         name: "Install NPM"
-        code: sudo apt-get update && sudo apt-get -y install nodejs
+        code: |
+          curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+          sudo apt-get install -y nodejs
 
     - script:
         name: "Install frontend dependencies"
