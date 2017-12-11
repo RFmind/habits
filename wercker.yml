@@ -35,8 +35,9 @@ build:
 
 deploy:
   steps:
-    - heroku-deploy:
-        key: $HEROKU_KEY
-        user: $HEROKU_USER
-        app-name: $HEROKU_APP_NAME
-
+    - internal/docker-push:
+        username: $USERNAME
+        password: $PASSWORD
+        tag: latest
+        repository: rfmind/habits
+        registry: https://registry.hub.docker.com
