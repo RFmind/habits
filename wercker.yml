@@ -19,7 +19,7 @@ build-server:
 
     - script:
         name: "Install missing postgresql-dev package"
-        code: apk add postgresql-dev
+        code: apk --update add postgresql-dev
 
     - pip-install
 
@@ -41,7 +41,7 @@ build-frontend:
   steps:
     - script:
         name: "Install NPM"
-        code: apk add npm
+        code: apk --update add npm
 
     - script:
         name: "Install frontend dependencies"
