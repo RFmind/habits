@@ -41,7 +41,7 @@ build-frontend:
   steps:
     - script:
         name: "Install NPM"
-        code: sudo apt-get update && sudo apt-get install nodejs
+        code: sudo apt-get update && sudo apt-get -y install nodejs
 
     - script:
         name: "Install frontend dependencies"
