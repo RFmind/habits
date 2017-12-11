@@ -41,7 +41,7 @@ build-frontend:
   steps:
     - script:
         name: "Install NPM"
-        code: apk --update add nodejs
+        code: apk --update add nodejs nodejs-npm
 
     - script:
         name: "Install frontend dependencies"
