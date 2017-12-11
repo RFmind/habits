@@ -6,7 +6,7 @@ box:
 services:
   - id: postgres
     env:
-      POSTGRES_PASSWORD: apossword
+      POSTGRES_PASSWORD: apassword
       POSTGRES_USER: nameapassword
 
 build-server:

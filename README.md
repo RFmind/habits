@@ -1,4 +1,8 @@
-# Habits Project [![Travis-ci Build Status](https://travis-ci.org/RFmind/habits.svg?branch=master)](https://travis-ci.org/RFmind/habits) [![wercker status](https://app.wercker.com/status/c052797d601f12279620faf7d6ced6ea/m/master "wercker status")](https://app.wercker.com/project/byKey/c052797d601f12279620faf7d6ced6ea) [![BCH compliance](https://bettercodehub.com/edge/badge/RFmind/habits?branch=master)](https://bettercodehub.com/)
+# Habits Project
+
+## Badges
+
+[![Travis-ci Build Status](https://travis-ci.org/RFmind/habits.svg?branch=master)](https://travis-ci.org/RFmind/habits) [![wercker status](https://app.wercker.com/status/c052797d601f12279620faf7d6ced6ea/m/master "wercker status")](https://app.wercker.com/project/byKey/c052797d601f12279620faf7d6ced6ea) [![BCH compliance](https://bettercodehub.com/edge/badge/RFmind/habits?branch=master)](https://bettercodehub.com/)
 
 ## Introduction
 
