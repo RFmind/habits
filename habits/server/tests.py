@@ -99,9 +99,6 @@ class HabitsTestCase(unittest.TestCase):
             response.status_code,
             404)
 
-            
-
-
     def test_returns_400_when_name_not_given(self):
         response = self.client().post('/habits/',
             data=json.dumps(dict(noname='notaname')),
@@ -136,6 +133,41 @@ class HabitsTestCase(unittest.TestCase):
         self.assertEqual(
             as_json([Habit(name='somename'), Habit(name='other')]),
             json.dumps([{'name': 'somename'}, {'name': 'other'}]))
+
+    def test_should_return_404_when_updating_non_existent(self):
+        response = self.client().put('/habits/1',
+            data=json.dumps(dict(name='something')),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+
+    def test_put_request_should_400_when_no_name_supplied(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().put('/habits/1',
+            data=None,
+            content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_put_request_should_200(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().put('/habits/1',
+            data=json.dumps(dict(name='NewName')),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+    def test_put_request_should_return_updated_habit(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().put('/habits/1',
+            data=json.dumps(dict(name='NewName')),
+            content_type='application/json')
+        self.assertEqual(
+            json.loads(response.data),
+            dict(id=1, name='NewName'))
 
 if __name__ == '__main__':
     unittest.main()

@@ -14,7 +14,7 @@ def habits():
     else:
         data = request.get_json(silent=True)
         validator = Validator()
-        schema = {'name': {'type': 'string', 'maxlength': 50}}
+        schema = {'name': {'required': True, 'type': 'string', 'maxlength': 50}}
         
         if data is None or not validator.validate(data, schema):
             return make_response("Bad Request", 400)
@@ -41,6 +41,26 @@ def delete_habit(id):
         return make_response("Not Found", 404)
 
     habit.delete()
+    return make_response(
+        as_json(habit),
+        200)
+
+@habits_api.route('/<id>', methods=['PUT'])
+def update_habit(id):
+    habit = Habit.query.get(id)
+    
+    if habit is None:
+        return make_response('Not Found', 404)
+
+    data = request.get_json(silent=True)
+    validator = Validator()
+    schema = {'name': {'required': True, 'type': 'string', 'maxlength': 50}}
+
+    if data is None or not validator.validate(data, schema):
+        return make_response('Bad Request', 400)
+
+    habit.name = data['name']
+    db.session.commit()
     return make_response(
         as_json(habit),
         200)
