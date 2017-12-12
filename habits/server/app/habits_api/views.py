@@ -6,23 +6,23 @@ from app.habits_api.util import as_json
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
-@habits_api.route('/', methods=['GET', 'POST'])
+@habits_api.route('/', methods=['GET'])
 def habits():
-    if request.method == 'GET':
-        response = make_response(as_json(Habit.query.all()), 200)
-        return response
-    else:
-        data = request.get_json(silent=True)
-        validator = Validator()
-        schema = {'name': {'required': True, 'type': 'string', 'maxlength': 50}}
-        
-        if data is None or not validator.validate(data, schema):
-            return make_response("Bad Request", 400)
+    return make_response(as_json(Habit.query.all()), 200)
 
-        new_habit = Habit(name=data['name'])
-        new_habit.save()
+@habits_api.route('/', methods=['POST'])
+def add_habit():
+    data = request.get_json(silent=True)
+    validator = Validator()
+    schema = {'name': {'required': True, 'type': 'string', 'maxlength': 50}}
 
-        return make_response(as_json(new_habit), 201)
+    if data is None or not validator.validate(data, schema):
+        return make_response("Bad Request", 400)
+
+    new_habit = Habit(name=data['name'])
+    new_habit.save()
+
+    return make_response(as_json(new_habit), 201)
 
 @habits_api.route('/<id>', methods=['GET'])
 def show_habit(id):
