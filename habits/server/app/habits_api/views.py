@@ -3,6 +3,7 @@ from cerberus import Validator
 from app.habits_api.models import Habit
 from app import db
 from app.habits_api.util import as_json
+import json
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
@@ -64,4 +65,27 @@ def update_habit(id):
     return make_response(
         as_json(habit),
         200)
+
+@habits_api.route('/batch-delete/', methods=['POST'])
+def batch_delete():
+    data = request.get_json(silent=True)
+
+    if data is None or len(data) == 0:
+        return make_response('Bad Request', 400)
+
+    result = {'success': [], 'failure': []}
+
+    for habit_id in data:
+        habit = Habit.query.get(habit_id)
+
+        if habit is None:
+            result['failure'].append(habit_id)
+        else:
+            habit.delete()
+            result['success'].append(habit_id)
+
+    if len(result['success']) == 0:
+        return make_response('Not Found', 404)
+
+    return make_response(json.dumps(result), 200)
 

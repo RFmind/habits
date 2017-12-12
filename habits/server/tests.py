@@ -169,6 +169,38 @@ class HabitsTestCase(unittest.TestCase):
             json.loads(response.data),
             dict(id=1, name='NewName'))
 
+    def test_batch_delete_should_400_when_no_ids_supplied(self):
+        response = self.client().post('/habits/batch-delete/',
+            data=json.dumps([]),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_batch_delete_should_allow_for_partial_error(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().post('/habits/batch-delete/',
+            data=json.dumps([1,2]),
+            content_type='application/json')
+        self.assertEqual(
+            json.loads(response.data),
+            {'success': [1], 'failure': [2]})
+
+    def test_batch_delete_should_200_on_ok_or_partial_error(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().post('/habits/batch-delete/',
+            data=json.dumps([1,2]),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+    def test_batch_delete_should_404_when_nothing_found(self):
+        response = self.client().post('/habits/batch-delete/',
+            data=json.dumps([1,2]),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+
 if __name__ == '__main__':
     unittest.main()
 
