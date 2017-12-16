@@ -225,21 +225,21 @@ class HabitsTestCase(unittest.TestCase):
                 json.loads(response.data)['trigger_time']) is not None)
 
     def test_get_list_activity_should_404_when_habit_not_found(self):
-        response = self.client().get('/habits/1/triggers/')
+        response = self.client().get('/habits/1/activities/')
         self.assertEqual(response.status_code, 404)
 
     def test_get_list_activity_should_200(self):
         added = self.client().post('/habits/',
             data=self.newhabit,
             content_type='application/json')
-        response = self.client().get('/habits/1/triggers/')
+        response = self.client().get('/habits/1/activities/')
         self.assertEqual(response.status_code, 200)
 
     def test_get_list_activity_should_return_a_list(self):
         added = self.client().post('/habits/',
             data=self.newhabit,
             content_type='application/json')
-        response = self.client().get('/habits/1/triggers/')
+        response = self.client().get('/habits/1/activities/')
         self.assertTrue(isinstance(json.loads(response.data), list))
 
     def test_activity_listed_after_trigger(self):
@@ -247,15 +247,44 @@ class HabitsTestCase(unittest.TestCase):
             data=self.newhabit,
             content_type='application/json')
         
-        empty = self.client().get('/habits/1/triggers/')
+        empty = self.client().get('/habits/1/activities/')
         self.assertEqual(len(json.loads(empty.data)), 0)
 
         triggered = self.client().get('/habits/1/trigger/')
-        response = self.client().get('/habits/1/triggers/')
+        response = self.client().get('/habits/1/activities/')
         self.assertEqual(
             json.loads(triggered.data),
             json.loads(response.data)[0])
 
+    def test_get_one_activity_habit_not_found_should_404(self):
+        response = self.client().get('/habits/1/activities/1')
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_one_activity_not_found_should_404(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().get('/habits/1/activities/1')
+        self.assertEqual(response.status_code, 404)
+
+    def test_get_one_activity_should_200(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        trigger = self.client().get('/habits/1/trigger/')
+        response = self.client().get('/habits/1/activities/1')
+        self.assertEqual(response.status_code, 200)
+
+    def test_activity_gettable_after_trigger(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        trigger = self.client().get('/habits/1/trigger/')
+        response = self.client().get('/habits/1/activities/1')
+        self.assertEqual(
+            json.loads(response.data),
+            json.loads(trigger.data))
+        
 
 if __name__ == '__main__':
     unittest.main()

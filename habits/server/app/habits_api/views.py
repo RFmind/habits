@@ -105,7 +105,7 @@ def trigger_habit(id):
         json.dumps(activity_as_dict(activity)), 
         200)
 
-@habits_api.route('/<id>/triggers/', methods=['GET'])
+@habits_api.route('/<id>/activities/', methods=['GET'])
 def list_triggers(id):
     habit = Habit.query.get(id)
 
@@ -119,3 +119,19 @@ def list_triggers(id):
 
     dict_activities = list(map(activity_as_dict, activities))
     return make_response(json.dumps(dict_activities), 200)
+
+@habits_api.route('/<idh>/activities/<ida>', methods=['GET'])
+def get_activity_by_id(idh, ida):
+    habit = Habit.query.get(idh)
+
+    if habit is None:
+        return make_response('Not Found', 404)
+
+    activity = Activity.query.get(ida)
+
+    if activity is None:
+        return make_response('Not Found', 404)
+
+    return make_response(json.dumps(activity_as_dict(activity)), 200)
+
+
