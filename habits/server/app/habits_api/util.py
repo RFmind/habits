@@ -20,3 +20,7 @@ def datetime_as_str(data):
     if isinstance(data, datetime.datetime):
         return data.strftime('%Y-%m-%dT%H:%M:%S')
 
+def activity_as_dict(activity):
+    if activity is None:
+        return None
+    return {'trigger_time': datetime_as_str(activity.trigger_time)}

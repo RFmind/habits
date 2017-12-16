@@ -4,7 +4,7 @@ from cerberus import Validator
 
 from app import db
 from app.habits_api.models import Habit, Activity
-from app.habits_api.util import as_json, datetime_as_str
+from app.habits_api.util import as_json, datetime_as_str, activity_as_dict
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
@@ -101,9 +101,21 @@ def trigger_habit(id):
     db.session.add(activity)
     db.session.commit()
 
-    trigger_time_str = datetime_as_str(activity.trigger_time)
-
     return make_response(
-        json.dumps({'trigger_time': '{}'.format(trigger_time_str)}), 
+        json.dumps(activity_as_dict(activity)), 
         200)
 
+@habits_api.route('/<id>/triggers/', methods=['GET'])
+def list_triggers(id):
+    habit = Habit.query.get(id)
+
+    if habit is None:
+        return make_response('Not Found', 404)
+
+    activities = habit.activities
+
+    if activities is None:
+        return make_response(json.dumps([]), 200)
+
+    dict_activities = list(map(activity_as_dict, activities))
+    return make_response(json.dumps(dict_activities), 200)
