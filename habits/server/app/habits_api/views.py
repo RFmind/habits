@@ -1,9 +1,10 @@
+import json
 from flask import Blueprint, jsonify, request, make_response
 from cerberus import Validator
-from app.habits_api.models import Habit
+
 from app import db
-from app.habits_api.util import as_json
-import json
+from app.habits_api.models import Habit, Activity
+from app.habits_api.util import as_json, datetime_as_str
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
@@ -88,4 +89,21 @@ def batch_delete():
         return make_response('Not Found', 404)
 
     return make_response(json.dumps(result), 200)
+
+@habits_api.route('/<id>/trigger/', methods=['GET'])
+def trigger_habit(id):
+    habit = Habit.query.get(id)
+
+    if habit is None:
+        return make_response('Not Found', 404)
+
+    activity = Activity(habit_id=id)
+    db.session.add(activity)
+    db.session.commit()
+
+    trigger_time_str = datetime_as_str(activity.trigger_time)
+
+    return make_response(
+        json.dumps({'trigger_time': '{}'.format(trigger_time_str)}), 
+        200)
 

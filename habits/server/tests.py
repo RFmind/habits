@@ -1,6 +1,7 @@
 import unittest
 import json
 import tempfile
+import re
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 
@@ -201,6 +202,28 @@ class HabitsTestCase(unittest.TestCase):
             content_type='application/json')
         self.assertEqual(response.status_code, 404)
 
+    def test_trigger_should_404_when_habit_not_found(self):
+        response = self.client().get('/habits/1/trigger/')
+        self.assertEqual(response.status_code, 404)
+
+    def test_trigger_should_200(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().get('/habits/1/trigger/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_trigger_should_return_datetime_in_correct_format(self):
+        added = self.client().post('/habits/',
+            data=self.newhabit,
+            content_type='application/json')
+        response = self.client().get('/habits/1/trigger/')
+
+        self.assertTrue(
+            re.match(
+                '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}',
+                json.loads(response.data)['trigger_time']) is not None)
+ 
 if __name__ == '__main__':
     unittest.main()
 

@@ -1,4 +1,5 @@
 import json
+import datetime
 
 def as_dict(habit):
     result = {}
@@ -14,4 +15,8 @@ def as_json(data):
     if type(data) == list:
         return json.dumps(list(map(as_dict, data)))
     return json.dumps(as_dict(data))
+
+def datetime_as_str(data):
+    if isinstance(data, datetime.datetime):
+        return data.strftime('%Y-%m-%dT%H:%M:%S')
 
