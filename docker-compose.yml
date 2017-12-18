@@ -14,6 +14,7 @@ web:
     environment:
         SETTINGS_MODE: PROD
         DATABASE_URL: postgresql://postgres:postgres@db.local:5432/habits_prod
+        PORT: 5000
     volumes:
         - .:/flaskapp
     links:
@@ -25,6 +26,7 @@ test:
     ports:
         - "5000:5000"
     environment:
-        - SETTINGS_MODE=TEST
+        SETTINGS_MODE: TEST
+        PORT: 5000
     volumes:
         - .:/flaskapp
