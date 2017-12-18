@@ -1,8 +1,11 @@
 module.exports = {
-    entry: './src/Main.jsx',
+    entry: './src/index.js',
     output: {
         path: __dirname + '/dist',
         filename: 'app.js'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
     },
     module: {
         loaders: [{
