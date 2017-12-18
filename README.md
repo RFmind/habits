@@ -15,6 +15,8 @@ To run the container the following environment variables should be set:
 * `SETTINGS_MODE` should be one of `TEST`, `DEV` or `PROD`
 * `DATABASE_URL` (e.g. `postgresql://user:pass@host:port/databasename`)
 
+Additionally you can set a custom port using the `PORT` variable.
+
 You can also clone this repository and follow the instructions below to test/run
 the application.
 
