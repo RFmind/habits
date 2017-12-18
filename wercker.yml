@@ -66,5 +66,6 @@ deploy:
     - internal/docker-push:
         username: $HEROKUUSERNAME
         password: $HEROKUPASSWORD
+        email: $HEROKUUSERNAME
         tag: latest
-        registry: https://registry.heroku.com
+        registry: https://registry.heroku.com/v2
