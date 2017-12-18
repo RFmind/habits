@@ -67,4 +67,5 @@ deploy:
         username: $HEROKUUSERNAME
         password: $HEROKUPASSWORD
         email: $HEROKUUSERNAME
-        registry: https://registry.heroku.com/habits-project:latest
+        repository: wcr.io/habits-project-organisation/habits
+        registry: https://registry.heroku.com
