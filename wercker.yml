@@ -11,11 +11,6 @@ services:
 
 build-server:
   steps:
-    
-    - script:
-        name: "Wait for Postgres"
-        code: |
-          while ! $(python -c "import socket; soc=socket.socket(); soc.connect(('$POSTGRES_PORT_5432_TCP_ADDR', $POSTGRES_PORT_5432_TCP_PORT))"); do sleep 3; done
 
     - script:
         name: "Install missing dependencies"
@@ -26,11 +21,6 @@ build-server:
     - script:
         name: "Set environment vars"
         code: |
-          export POSTGRES_USER=$POSTGRES_ENV_POSTGRES_USER
-          export POSTGRES_PASSWORD=$POSTGRES_ENV_POSTGRES_PASSWORD
-          export POSTGRES_HOST=$POSTGRES_PORT_5432_TCP_ADDR
-          export POSTGRES_PORT=$POSTGRES_PORT_5432_TCP_PORT
-          export POSTGRES_DB=habits_test
           export SETTINGS_MODE=TEST
 
     - script:
@@ -72,3 +62,9 @@ deploy:
         tag: latest
         repository: rfmind/habits
         registry: https://registry.hub.docker.com/v2
+
+    - internal/docker-push:
+        username: $HEROKUUSERNAME
+        password: $HEROKUPASSWORD
+        tag: latest
+        registry: https://registry.heroku.com

@@ -15,11 +15,8 @@ class DevConfig(BaseConfig):
 class ProdConfig(BaseConfig):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://{}:{}@{}/{}'.format(
-        os.getenv('POSTGRES_USER'),
-        os.getenv('POSTGRES_PASSWORD'),
-        os.getenv('POSTGRES_HOST'),
-        'habits_prod')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+
 
 configuration_mode = {
     'TEST': TestConfig,

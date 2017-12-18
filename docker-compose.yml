@@ -12,15 +12,12 @@ web:
     ports:
         - "5000:5000"
     environment:
-        - SETTINGS_MODE=PROD
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - POSTGRES_HOST=db
-        - POSTGRES_DB=habits_prod
+        SETTINGS_MODE: PROD
+        DATABASE_URL: postgresql://postgres:postgres@db.local:5432/habits_prod
     volumes:
         - .:/flaskapp
     links:
-        - db
+      - db:db.local
 
 test:
     build: .

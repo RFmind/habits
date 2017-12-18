@@ -11,13 +11,9 @@ a REST-style Python-based backend.
 
 You can find the latest builds on Docker Hub @ hub.docker.com/r/rfmind/habits
 
-To run the container the following env vars should be set:
-```
-POSTGRES_HOST
-POSTGRES_USER
-POSTGRES_PASSWORD
-SETTINGS_MODE (should be one of `DEV`, `TEST` or `PROD`
-```
+To run the container the following environment variables should be set:
+* `SETTINGS_MODE` should be one of `TEST`, `DEV` or `PROD`
+* `DATABASE_URL` (e.g. `postgresql://user:pass@host:port/databasename`)
 
 You can also clone this repository and follow the instructions below to test/run
 the application.
@@ -32,7 +28,8 @@ the application.
 
 ##### Locally
 
-Make sure to set the `SETTINGS_MODE` environment variable to `TEST`, `DEV` or `PROD`.
+Make sure to set the `SETTINGS_MODE` environment variable to `TEST`.
+
 Then run the tests:
 
 `python habits/server/tests.py`
@@ -45,8 +42,10 @@ Then run the tests:
 
 ##### Locally
 
-Make sure to set the `SETTINGS_MODE` to `TEST`, `DEV` or `PROD`.
-Then run the application:
+Make sure to set the `SETTINGS_MODE` to `DEV` or `PROD`.
+In case of `PROD` the `DATABASE_URL` should also be set.
+
+Now run the application:
 
 `python habits/server/run.py`
 
