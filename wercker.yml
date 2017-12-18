@@ -62,9 +62,3 @@ deploy:
         tag: latest
         repository: rfmind/habits
         registry: https://registry.hub.docker.com/v2
-
-    - internal/docker-push:
-        username: $HEROKUUSERNAME
-        password: $HEROKUPASSWORD
-        email: $HEROKUUSERNAME
-        registry: https://registry.heroku.com/v2/habits-project
