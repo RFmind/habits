@@ -5,40 +5,38 @@ import SelectionList from '../src/components/SelectionList'
 
 describe('<SelectionList />', () => {
 
-    describe('<ul>', () => {
+    const testItems = [{ "id": 1, "name": "Reading" },
+                       { "id": 2, "name": "Writing" },
+                       { "id": 3, "name": "Coding" }]
 
-        const wrapper = items => shallow(
-            <SelectionList itemsMap={items} onSubmit={() => {}} />
+    const wrapper = ({ itemsMap = testItems, onSubmit = () => {},
+                       submitText = 'Test', multipleValueSelect = true }) =>
+        shallow(
+            <SelectionList itemsMap={itemsMap} onSubmit={onSubmit}
+                           submitText={submitText}
+                           multipleValueSelect={multipleValueSelect} />
         )
 
-        it('should be rendered every time.', () => {
-            expect(wrapper([]).find('ul')).to.have.length(1)
-
-            expect(wrapper([{ "id": 1, "name": "Reading" }]).find('ul'))
-                .to.have.length(1)
+    describe('The list', () => {
+        it('should contain all items, and no more.', () => {
+            expect(wrapper({}).find('ul li'))
+                .to.have.length(testItems.length)
         })
+    })
 
-        it('should contain all, if any, items', () => {
-            expect(wrapper([]).find('ul li')).to.have.length(0)
-
-            expect(wrapper([{ "id": 1, "name": "Reading" }]).find('ul li'))
-                .to.have.length(1)
-
-            expect(wrapper([{ "id": 1, "name": "Reading" },
-                            { "id": 2, "name": "Writing" },
-                            { "id": 3, "name": "Coding"  }]).find('ul li'))
-                .to.have.length(3)
+    describe('The items', () => {
+        it('should be of the correct type.', () => {
+            expect(wrapper({})
+                .find({type: 'checkbox'})).to.have.length(testItems.length)
+            expect(wrapper({multipleValueSelect: false})
+                .find({type: 'radio'})).to.have.length(testItems.length)
         })
     })
     
-    it('should contain a submit input button with the appropriate text.', () => {
-        const wrapper = shallow(
-            <SelectionList itemsMap={[]} onSubmit={() => {}}
-                           submitText="Test" />
-        )
-
-        expect(wrapper.find('input[type="submit"]')).to.have.length(1)
-        expect(wrapper.find('input[type="submit"]').first().props().value)
-            .to.equal('Test')
+    describe('The submit button', () => {
+        it('should have the appropriate text.', () => {
+            expect(wrapper({}).find({ type: 'submit', value: 'Test' }))
+                .to.have.length(1)
+        })
     })
 })
