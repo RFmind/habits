@@ -1,25 +1,19 @@
 import { connect } from 'react-redux'
 import { deleteHabit } from '../actions'
+import { requestToDeleteHabit } from '../backendDriver'
 import SelectionList from '../components/SelectionList'
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
     itemsMap: state,
-    submitText: 'Delete'
+    submitText: ownProps.submitText || 'Confirm'
 })
 
-const mapDispatchToProps = dispatch => ({
-    onSubmit: items => {
-        items.forEach(item => {
-            const req = new XMLHttpRequest()
-            req.open('DELETE', '/habits/' + item.id)
-            req.onload = event => {
-                if (req.status === 200) {
-                    dispatch(deleteHabit(JSON.parse(req.responseText)))
-                }
-            }
-            req.send(null)
-        })
-    }
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    onSubmit: items =>
+        items.forEach(item =>
+            requestToDeleteHabit(item.id,
+                                 response => dispatch(deleteHabit(response)))
+        )
 })
 
 const HabitsList = connect(

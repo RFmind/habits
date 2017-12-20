@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { addHabit } from '../actions'
+import { postHabit } from '../backendDriver'
 import SingleFieldForm from '../components/SingleFieldForm'
 
 const mapStateToProps = state => ({
@@ -7,17 +8,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: habitName => {
-        const req = new XMLHttpRequest()
-        req.open('POST', '/habits/')
-        req.setRequestHeader('Content-Type', 'application/json')
-        req.onload = event => {
-            if (req.status === 201) {
-                dispatch(addHabit(JSON.parse(req.responseText)))
-            }
-        }
-        req.send(JSON.stringify({ "name": habitName }))
-    }
+    onSubmit: habitName => postHabit({ "name": habitName },
+                                     response => dispatch(addHabit(response)))
 })
 
 const AddHabit = connect(
