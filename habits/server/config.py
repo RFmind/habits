@@ -15,8 +15,11 @@ class DevConfig(BaseConfig):
 class ProdConfig(BaseConfig):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
+    def __init__(self):
+        os_dburl = os.getenv('OPENSHIFT_POSTGRESQL_DB_URL') + '/habits_prod'
+        db_url = os.getenv('DATABASE_URL')
+        self.SQLALCHEMY_DATABASE_URI = db_url if os_dburl is None else os_dburl
 
 configuration_mode = {
     'TEST': TestConfig,
