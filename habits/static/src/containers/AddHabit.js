@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
-import { addHabit } from '../actions'
-import { postHabit } from '../backendDriver'
+import { addHabitRequest } from '../store'
 import SingleFieldForm from '../components/SingleFieldForm'
 
 const mapStateToProps = state => ({
@@ -8,8 +7,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: habitName => postHabit({ "name": habitName },
-                                     response => dispatch(addHabit(response)))
+    onSubmit: habitName => dispatch(addHabitRequest({ "name": habitName }))
 })
 
 const AddHabit = connect(
