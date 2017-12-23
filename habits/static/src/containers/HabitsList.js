@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { deleteHabitRequest } from '../store'
+import { deleteHabitRequest } from '../store/actions'
 import SelectionList from '../components/SelectionList'
 
 const mapStateToProps = (state, ownProps) => ({

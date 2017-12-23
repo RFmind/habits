@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { addHabitRequest } from '../store'
+import { addHabitRequest } from '../store/actions'
 import SingleFieldForm from '../components/SingleFieldForm'
 
 const mapStateToProps = state => ({
