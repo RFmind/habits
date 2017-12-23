@@ -2,7 +2,7 @@ require('babel-register')();
 
 const { JSDOM } = require('jsdom');
 const jsdom = new JSDOM('<!doctype html><html><body></body></html>',
-                        { url: "http://localhost:5000/" });
+                        { url: "http://localhost:4000/" });
 const { window } = jsdom;
 
 var enzyme = require('enzyme');
