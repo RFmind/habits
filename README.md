@@ -67,14 +67,14 @@ npm install
 ### Build Application
 
 ```
-cd /habits/static/
+cd habits/static/
 npm run build
 ```
 
 ### Run Tests
 
 ```
-cd /habits/static/
+cd habits/static/
 npm run tests
 ```
 
