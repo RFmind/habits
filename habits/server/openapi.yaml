@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Habits API
+  version: 0.0.1
+
+servers:
+  - url: http:localhost:4000
+
+paths:
+  /habits/:
+    get:
+      summary: Returns a list of habits
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      minimum: 1
+                    name:
+                      type: string
+    post:
+      summary: Creates a habit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+
+  /habits/{id}:
+    get:
+      summary: Returns a single Habit object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    minimum: 1
+                  name:
+                    type: string
+        '404':
+          description: Not Found
+    delete:
+      summary: Deletes a single habit. Returns the habit.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    minimum: 1
+                  name:
+                    type: string
+        '404':
+          description: Not Found
+    put:
+      summary: Replaces a single habit. Returns the new one.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    minimum: 1
+                  name:
+                    type: string
+        '404':
+          description: Not Found
+        '400':
+          description: Bad Request
