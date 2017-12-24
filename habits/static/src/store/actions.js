@@ -5,7 +5,7 @@ import { createActions, handleActions } from 'redux-actions'
 const { addHabit, deleteHabit } = createActions('ADD_HABIT', 'DELETE_HABIT')
 
 // Reducers
-const habitsList = handleActions(
+export const habitsList = handleActions(
     {
         'ADD_HABIT': (state, action) => {
             return state.concat([action.payload])
@@ -22,5 +22,11 @@ export const addHabitRequest = habit =>
     dispatch => postHabit(habit, response => dispatch(addHabit(response)))
 
 export const deleteHabitRequest = habitId =>
-    dispatch => requestToDeleteHabit(habitId, response =>
-                                              dispatch(deleteHabit(response)))
+    dispatch => requestToDeleteHabit
+                  (habitId, response => dispatch(deleteHabit(response)))
+
+export const deleteHabitsRequest = habits =>
+    dispatch => habits.map(habit =>
+                           requestToDeleteHabit
+                             (habit.id, response =>
+                                        dispatch(deleteHabit(response))))

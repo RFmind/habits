@@ -2,6 +2,7 @@ import React from 'react'
 
 import HabitsList from '../containers/HabitsList'
 import AddHabit from '../containers/AddHabit'
+import { deleteHabitsRequest } from '../store/actions'
 
 const Main = ({ noHabits }) => {
     let maybeList
@@ -12,7 +13,7 @@ const Main = ({ noHabits }) => {
         )
     } else {
         maybeList = (
-            <HabitsList className="lst" />
+            <HabitsList action={deleteHabitsRequest} submitText="Delete" />
         )
     }
 
