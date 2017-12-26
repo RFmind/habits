@@ -6,8 +6,9 @@ const SelectionList = ({ itemsMap, onSubmit, submitText = 'Confirm',
     const id = Math.random()
     return (
         <form onSubmit={event => {
-            onSubmit(itemsMap.filter(item =>
-                document.getElementById(`${id}-${item.id}`).checked))
+            const selection = itemsMap.filter(item =>
+                document.getElementById(`${id}-${item.id}`).checked)
+            onSubmit(multipleValueSelect? selection : selection[0])
             event.preventDefault()
         }}>
           <ul>

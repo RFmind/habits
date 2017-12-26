@@ -17,7 +17,7 @@ const Main = ({ noHabits }) => {
           <AddHabit />
           {!noHabits &&
               <HabitsList action=
-                {items => dispatch => triggerHabit(items[0].id, response => {})}
+                {items => dispatch => triggerHabit(items.id, response => {})}
                           submitText="Trigger"
                           multipleValueSelect={false} />}
         </div>
