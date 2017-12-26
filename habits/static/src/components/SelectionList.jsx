@@ -14,7 +14,8 @@ const SelectionList = ({ itemsMap, onSubmit, submitText = 'Confirm',
             {itemsMap.map(item => (
                 <li key={item.id}>
                   <input type={multipleValueSelect ? 'checkbox' : 'radio'}
-                         id={`${id}-${item.id}`} />
+                         id={`${id}-${item.id}`}
+                         name="selection" />
                   {item.name}
                 </li>
             ))}
