@@ -19,7 +19,10 @@ class ProdConfig(BaseConfig):
     def __init__(self):
         os_dburl = os.getenv('OPENSHIFT_POSTGRESQL_DB_URL') + '/habits_prod'
         db_url = os.getenv('DATABASE_URL')
-        self.SQLALCHEMY_DATABASE_URI = db_url if os_dburl is None else os_dburl
+        if os_dburl is not None:
+            self.SQLALCHEMY_DATABASE_URI = os_dburl + '/habits_prod'
+        else:
+            self.SQLALCHEMY_DATABASE_URI = db_url
 
 configuration_mode = {
     'TEST': TestConfig,
