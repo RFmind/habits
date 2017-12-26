@@ -96,3 +96,54 @@ paths:
           description: Not Found
         '400':
           description: Bad Request
+
+  /habits/{id}/trigger/:
+    get:
+      summary: Adds an activity for a single habit. Returns the activity.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trigger_time:
+                    type: string
+        '404':
+          description: Not Found
+
+  /habits/{id}/activities/:
+    get:
+      summary: Returns a list of activities for a single habit.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    trigger_time:
+                      type: string
+        '404':
+          description: Not Found
+
+  /habits/{id}/activities/{aid}/:
+    get:
+      summary: Returns a single activity for a single habit.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trigger_time:
+                    type: string
+        '404':
+          description: Not Found
+      
