@@ -13,7 +13,7 @@ habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 def habits():
     result = as_json(Habit.query.all())
     log.info('Sending list of habits: {}'.format(result))
-    return make_response(as_json(Habit.query.all()), 200)
+    return make_response(result, 200)
 
 @habits_api.route('/', methods=['POST'])
 def add_habit():
