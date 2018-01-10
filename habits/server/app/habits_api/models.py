@@ -10,7 +10,7 @@ class Habit(db.Model):
     activities = db.relationship('Activity', backref=db.backref('habit', lazy=True))
 
     def __repr__(self):
-        return '<Habit id={} name={}'.format(self.id, self.name)
+        return '<Habit id={} name={} />'.format(self.id, self.name)
 
     def save(self):
         db.session.add(self)
