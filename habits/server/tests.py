@@ -41,7 +41,7 @@ class HabitsTestCase(unittest.TestCase):
             content_type='application/json')
         self.assertEqual(
             json.loads(self.client().get('/habits/').data),
-            [dict(id=1, name='Somehabit')])
+            [dict(id=1, name='Somehabit', activities=[])])
 
     def test_404_when_habit_not_found(self):
         response = self.client().get('/habits/1')
@@ -255,6 +255,11 @@ class HabitsTestCase(unittest.TestCase):
         self.assertEqual(
             json.loads(triggered.data),
             json.loads(response.data)[0])
+
+        response = self.client().get('/habits/')
+        self.assertEqual(
+                json.loads(triggered.data),
+                json.loads(response.data)[0]['activities'][0])
 
     def test_get_one_activity_habit_not_found_should_404(self):
         response = self.client().get('/habits/1/activities/1')
