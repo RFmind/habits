@@ -24,7 +24,7 @@ export const requestToDeleteHabit = (id, successCallback, failureCallback) => {
     request.send()
 }
 
-export const triggerHabit = (id, successCallback, failureCallback) => {
+export const requestToTriggerHabit = (id, successCallback, failureCallback) => {
     const request = serverRequest(200, successCallback, failureCallback)
     request.open('GET', '/habits/' + id + '/trigger/')
     request.send()

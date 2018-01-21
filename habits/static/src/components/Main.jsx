@@ -2,8 +2,7 @@ import React from 'react'
 
 import HabitsList from '../containers/HabitsList'
 import AddHabit from '../containers/AddHabit'
-import { deleteHabitsRequest } from '../store/actions'
-import { triggerHabit } from '../backendDriver'
+import { deleteHabitsRequest, triggerHabitRequest } from '../store/actions'
 
 const Main = ({ noHabits }) => {
     return (
@@ -16,8 +15,7 @@ const Main = ({ noHabits }) => {
                                   submitText="Delete" />)}
           <AddHabit />
           {!noHabits &&
-              <HabitsList action=
-                {items => dispatch => triggerHabit(items.id, response => {})}
+              <HabitsList action={triggerHabitRequest}
                           submitText="Trigger"
                           multipleValueSelect={false} />}
         </div>
