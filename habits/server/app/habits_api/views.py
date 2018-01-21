@@ -5,15 +5,17 @@ from cerberus import Validator
 
 from app import db
 from app.habits_api.models import Habit, Activity
-from app.habits_api.util import as_json, datetime_as_str, activity_as_dict
+from app.habits_api.encoders import HabitEncoder, DeepHabitEncoder
 
 habits_api = Blueprint('habits_api', __name__, url_prefix='/habits')
 
 @habits_api.route('/', methods=['GET'])
 def habits():
-    result = as_json(Habit.query.all(), True)
-    log.info('Sending list of habits: {}'.format(result))
-    return make_response(result, 200)
+    habits = Habit.query.all()
+    habits_json = json.dumps(habits, cls=DeepHabitEncoder)
+
+    log.info('Sending list of habits: {}'.format(habits_json))
+    return make_response(habits_json, 200)
 
 @habits_api.route('/', methods=['POST'])
 def add_habit():
@@ -28,11 +30,11 @@ def add_habit():
 
     new_habit = Habit(name=data['name'])
     new_habit.save()
+    new_habit_json = json.dumps(new_habit, cls=HabitEncoder)
 
-    log.info('Added a new habit: {}'.format(as_json(new_habit)))
-    log.info('Sending 201 Created with new habit: {}'.format(
-        as_json(new_habit)))
-    return make_response(as_json(new_habit), 201)
+    log.info('Added a new habit: {}'.format(new_habit))
+    log.info('Sending 201 Created with new habit: {}'.format(new_habit))
+    return make_response(new_habit_json, 201)
 
 @habits_api.route('/<id>', methods=['GET'])
 def show_habit(id):
@@ -42,10 +44,10 @@ def show_habit(id):
         log.info('Sending 404 Not Found')
         return make_response("Not Found", 404)
 
-    log.info('Sending habit: {}'.format(as_json(habit)))
-    return make_response(
-        as_json(habit),
-        200)
+    habit_json = json.dumps(habit, cls=HabitEncoder)
+
+    log.info('Sending habit: {}'.format(habit))
+    return make_response(habit_json, 200)
 
 @habits_api.route('/<id>', methods=['DELETE'])
 def delete_habit(id):
@@ -56,10 +58,10 @@ def delete_habit(id):
         return make_response("Not Found", 404)
 
     habit.delete()
+    habit_json = json.dumps(habit, cls=HabitEncoder)
+
     log.info('Deleted habit: {}'.format(habit))
-    return make_response(
-        as_json(habit),
-        200)
+    return make_response(habit_json, 200)
 
 @habits_api.route('/<id>', methods=['PUT'])
 def update_habit(id):
@@ -81,11 +83,10 @@ def update_habit(id):
 
     habit.name = data['name']
     db.session.commit()
-    log.info('Habit with id {} updated: {}'.format(
-        id, as_json(habit)))
-    return make_response(
-        as_json(habit),
-        200)
+    habit_json = json.dumps(habit, cls=HabitEncoder)
+
+    log.info('Habit with id {} updated: {}'.format(id, habit))
+    return make_response(habit_json, 200)
 
 @habits_api.route('/batch-delete/', methods=['POST'])
 def batch_delete():
@@ -128,10 +129,10 @@ def trigger_habit(id):
     db.session.add(activity)
     db.session.commit()
 
-    log.info('Added activity: {}'.format(activity_as_dict(activity)))
-    return make_response(
-        json.dumps(activity_as_dict(activity)), 
-        200)
+    activity_json = json.dumps(activity.as_dict())
+
+    log.info('Added activity: {}'.format(activity_json))
+    return make_response(activity_json, 200)
 
 @habits_api.route('/<id>/activities/', methods=['GET'])
 def list_triggers(id):
@@ -149,9 +150,11 @@ def list_triggers(id):
         log.info('Sending 404 Not Found')
         return make_response(json.dumps([]), 200)
 
-    dict_activities = list(map(activity_as_dict, activities))
-    log.info('Sending activities: {}'.format(dict_activities))
-    return make_response(json.dumps(dict_activities), 200)
+    activities_json = json.dumps(
+        list(map(lambda a: a.as_dict(), activities)))
+
+    log.info('Sending activities: {}'.format(activities_json))
+    return make_response(activities_json, 200)
 
 @habits_api.route('/<idh>/activities/<ida>', methods=['GET'])
 def get_activity_by_id(idh, ida):
@@ -169,8 +172,9 @@ def get_activity_by_id(idh, ida):
         log.info('Sending 404 Not Found')
         return make_response('Not Found', 404)
 
-    log.info('Sending activity: {} for habit with id {}'.format(
-        activity_as_dict(activity), id))
-    return make_response(json.dumps(activity_as_dict(activity)), 200)
+    activity_json = json.dumps(activity.as_dict())
 
+    log.info('Sending activity: {} for habit with id {}'.format(
+        activity_json, id))
+    return make_response(activity_json, 200)
 

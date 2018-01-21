@@ -20,8 +20,17 @@ class Habit(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    def json_fields(self):
+        return ['id', 'name']
+
+
 class Activity(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     trigger_time = db.Column(db.DateTime, default=datetime.utcnow)
     habit_id = db.Column(db.Integer, db.ForeignKey('habit.id'))
+
+    def as_dict(self):
+        return {
+            'trigger_time': self.trigger_time.strftime('%Y-%m-%dT%H:%M:%S')
+        }
